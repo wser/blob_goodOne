@@ -49,7 +49,7 @@
         init() {
           for (let i = 0; i < this.numPoints; i++) {
             let point = new Point(this.divisional * (i + 1), this);
-            //point.acceleration = -1 + Math.random() * 2;
+            // point.acceleration = -1 + Math.random() * 2;
             this.push(point);
           }
         }
@@ -100,8 +100,8 @@
           //ctx.closePath();
           ctx.fillStyle = this.color;
           ctx.fill();
-          ctx.strokeStyle = '#000000';
-          ctx.stroke();
+          ///ctx.strokeStyle = '#000000';
+          ///ctx.stroke();
 
           /*
               ctx.fillStyle = '#000000';
@@ -118,7 +118,7 @@
         // prettier-ignore
         set color(value) { this._color = value; }
         // prettier-ignore
-        get color() { return this._color || 'rgba(0,255,255,.95)'; }
+        get color() { return this._color || 'rgba(0,255,255,1)'; }
 
         // prettier-ignore
         set canvas(value) {
@@ -220,13 +220,13 @@
 
       let blob = new Blob();
 
-      const init = function () {
+      const init = () => {
         canvas = document.createElement('canvas');
         canvas.setAttribute('touch-action', 'none');
 
         document.body.appendChild(canvas);
 
-        let resize = function () {
+        let resize = () => {
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
         };
@@ -235,7 +235,7 @@
 
         let oldMousePoint = { x: 0, y: 0 };
         let hover = false;
-        let mouseMove = function (e) {
+        let mouseMove = (e) => {
           let pos = blob.center;
           let diff = { x: e.clientX - pos.x, y: e.clientY - pos.y };
           let dist = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -244,12 +244,12 @@
           blob.mousePos = { x: pos.x - e.clientX, y: pos.y - e.clientY };
 
           if (dist < blob.radius && hover === false) {
-            let vector = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+            let vector = { x: diff.x, y: diff.y };
             angle = Math.atan2(vector.y, vector.x);
             hover = true;
             // blob.color = '#77FF00';
           } else if (dist > blob.radius && hover === true) {
-            let vector = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+            let vector = { x: diff.x, y: diff.y };
             angle = Math.atan2(vector.y, vector.x);
             hover = false;
             blob.color = null;
@@ -268,12 +268,10 @@
             });
 
             if (nearestPoint) {
-              let strength = {
-                x: oldMousePoint.x - e.clientX,
-                y: oldMousePoint.y - e.clientY,
-              };
-              strength =
-                Math.sqrt(strength.x * strength.x + strength.y * strength.y) * 5;
+              // prettier-ignore
+              let strength = { x: oldMousePoint.x - e.clientX, y: oldMousePoint.y - e.clientY, };
+              // prettier-ignore
+              strength = Math.sqrt(strength.x * strength.x + strength.y * strength.y) * 5;
               if (strength > 100) strength = 100;
               nearestPoint.acceleration = (strength / 100) * (hover ? -1 : 1);
             }
