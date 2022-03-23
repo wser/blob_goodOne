@@ -41,10 +41,6 @@
   <body>
     <h1 class="text-light">This is pretty cool w</h1>
     <script>
-      let canvas, ctx;
-      let render, init;
-      let blob;
-
       class Blob {
         constructor() {
           this.points = [];
@@ -81,10 +77,8 @@
           ctx.moveTo((p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
 
           for (let i = 1; i < points; i++) {
-            pointsArray[i].solveWith(
-              pointsArray[i - 1],
-              pointsArray[i + 1] || pointsArray[0]
-            );
+            // prettier-ignore
+            pointsArray[i].solveWith( pointsArray[i - 1], pointsArray[i + 1] || pointsArray[0] );
 
             let p2 = pointsArray[i].position;
             var xc = (p1.x + p2.x) / 2;
@@ -110,65 +104,48 @@
           ctx.stroke();
 
           /*
-        ctx.fillStyle = '#000000';
-        if(this.mousePos) {
-          let angle = Math.atan2(this.mousePos.y, this.mousePos.x) + Math.PI;
-          ctx.fillRect(center.x + Math.cos(angle) * this.radius, center.y + Math.sin(angle) * this.radius, 5, 5);
-        }
-    */
+              ctx.fillStyle = '#000000';
+              if(this.mousePos) {
+                let angle = Math.atan2(this.mousePos.y, this.mousePos.x) + Math.PI;
+                ctx.fillRect(center.x + Math.cos(angle) * this.radius, center.y + Math.sin(angle) * this.radius, 5, 5);
+              }
+            */
           requestAnimationFrame(this.render.bind(this));
         }
+        // prettier-ignore
+        push(item) { if (item instanceof Point) this.points.push(item); }
 
-        push(item) {
-          if (item instanceof Point) {
-            this.points.push(item);
-          }
-        }
+        // prettier-ignore
+        set color(value) { this._color = value; }
+        // prettier-ignore
+        get color() { return this._color || 'rgba(0,255,255,.95)'; }
 
-        /* prettier-ignore */
-        set color(value) {this._color = value; }
-        get color() {
-          return this._color || 'rgba(0,255,255,.95)';
-        }
-
+        // prettier-ignore
         set canvas(value) {
-          if (
-            value instanceof HTMLElement &&
-            value.tagName.toLowerCase() === 'canvas'
-          ) {
-            this._canvas = canvas;
-            this.ctx = this._canvas.getContext('2d');
+            if (value instanceof HTMLElement && value.tagName.toLowerCase() === 'canvas') {
+              this._canvas = canvas; this.ctx = this._canvas.getContext('2d');
+            }
           }
-        }
-        get canvas() {
-          return this._canvas;
-        }
+        // prettier-ignore
+        get canvas() { return this._canvas; }
 
-        set numPoints(value) {
-          if (value > 2) this._points = value;
-        }
-        get numPoints() {
-          return this._points || 32;
-        }
+        // prettier-ignore
+        set numPoints(value) { if (value > 2) this._points = value; }
+        // prettier-ignore
+        get numPoints() { return this._points || 32; }
 
-        set radius(value) {
-          if (value > 0) this._radius = value;
-        }
-        get radius() {
-          return this._radius || 150;
-        }
+        // prettier-ignore
+        set radius(value) { if (value > 0) this._radius = value; }
+        // prettier-ignore
+        get radius() { return this._radius || 150; }
 
-        set position(value) {
-          if (typeof value == 'object' && value.x && value.y)
-            this._position = value;
-        }
-        get position() {
-          return this._position || { x: 0.5, y: 0.5 };
-        }
+        // prettier-ignore
+        set position(value) { if (typeof value == 'object' && value.x && value.y) this._position = value; }
+        // prettier-ignore
+        get position() { return this._position || { x: 0.5, y: 0.5 }; }
 
-        get divisional() {
-          return (Math.PI * 2) / this.numPoints;
-        }
+        // prettier-ignore
+        get divisional() { return (Math.PI * 2) / this.numPoints; }
 
         get center() {
           return {
@@ -176,13 +153,10 @@
             y: this.canvas.height * this.position.y,
           };
         }
-
-        set running(value) {
-          this._running = value === true;
-        }
-        get running() {
-          return this.running !== false;
-        }
+        // prettier-ignore
+        set running(value) { this._running = value === true; }
+        // prettier-ignore
+        get running() { return this.running !== false; }
       }
 
       class Point {
@@ -205,33 +179,20 @@
               this.elasticity -
             this.speed * this.friction;
         }
+        // prettier-ignore
+        set acceleration(value) { if (typeof value == 'number') { this._acceleration = value; this.speed += this._acceleration * 2; }}
+        // prettier-ignore
+        get acceleration() { return this._acceleration || 0; }
 
-        set acceleration(value) {
-          if (typeof value == 'number') {
-            this._acceleration = value;
-            this.speed += this._acceleration * 2;
-          }
-        }
-        get acceleration() {
-          return this._acceleration || 0;
-        }
+        // prettier-ignore
+        set speed(value) { if (typeof value == 'number') { this._speed = value; this.radialEffect += this._speed * 5; }}
+        // prettier-ignore
+        get speed() { return this._speed || 0; }
 
-        set speed(value) {
-          if (typeof value == 'number') {
-            this._speed = value;
-            this.radialEffect += this._speed * 5;
-          }
-        }
-        get speed() {
-          return this._speed || 0;
-        }
-
-        set radialEffect(value) {
-          if (typeof value == 'number') this._radialEffect = value;
-        }
-        get radialEffect() {
-          return this._radialEffect || 0;
-        }
+        // prettier-ignore
+        set radialEffect(value) { if (typeof value == 'number') this._radialEffect = value; }
+        // prettier-ignore
+        get radialEffect() { return this._radialEffect || 0; }
 
         get position() {
           return {
@@ -243,28 +204,23 @@
               this.components.y * (this.parent.radius + this.radialEffect),
           };
         }
+        // prettier-ignore
+        get components() { return this._components; }
 
-        get components() {
-          return this._components;
-        }
+        // prettier-ignore
+        set elasticity(value) { if (typeof value === 'number') this._elasticity = value; }
+        // prettier-ignore
+        get elasticity() { return this._elasticity || 0.001; }
 
-        set elasticity(value) {
-          if (typeof value === 'number') this._elasticity = value;
-        }
-        get elasticity() {
-          return this._elasticity || 0.001;
-        }
-        set friction(value) {
-          if (typeof value === 'number') this._friction = value;
-        }
-        get friction() {
-          return this._friction || 0.0085;
-        }
+        // prettier-ignore
+        set friction(value) { if (typeof value === 'number') this._friction = value; }
+        // prettier-ignore
+        get friction() { return this._friction || 0.0085; }
       }
 
-      blob = new Blob();
+      let blob = new Blob();
 
-      init = function () {
+      const init = function () {
         canvas = document.createElement('canvas');
         canvas.setAttribute('touch-action', 'none');
 
@@ -317,8 +273,7 @@
                 y: oldMousePoint.y - e.clientY,
               };
               strength =
-                Math.sqrt(strength.x * strength.x + strength.y * strength.y) *
-                10;
+                Math.sqrt(strength.x * strength.x + strength.y * strength.y) * 5;
               if (strength > 100) strength = 100;
               nearestPoint.acceleration = (strength / 100) * (hover ? -1 : 1);
             }
